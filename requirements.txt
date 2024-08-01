@@ -1,0 +1,5 @@
+streamlit>=1.18.0
+pandas>=2.0.0
+plotly>=5.15.0
+argon2-cffi>=21.3.0
+streamlit-option-menu>=0.0.11
