@@ -6,6 +6,11 @@ import io
 from streamlit_option_menu import option_menu
 import plotly.graph_objects as go
 from argon2 import PasswordHasher
+# Import and run the setup script
+import db_setup
+
+# Call a function from the setup script to initialize the database
+db_setup.create_db()
 
 ph = PasswordHasher()
 
