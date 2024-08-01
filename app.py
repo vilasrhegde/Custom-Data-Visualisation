@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
-import bcrypt
 import plotly.express as px
 import io
 from streamlit_option_menu import option_menu
 import plotly.graph_objects as go
+from argon2 import PasswordHasher
 
+ph = PasswordHasher()
 
 # Database connection
 conn = sqlite3.connect('data.db')
@@ -29,12 +30,15 @@ c.execute('''CREATE TABLE IF NOT EXISTS datasets (
 
 conn.commit()
 
-# Helper functions
 def hash_password(password):
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return ph.hash(password)
 
-def check_password(password, hashed):
-    return bcrypt.checkpw(password.encode('utf-8'), hashed)
+def check_password(hashed_password, password):
+    try:
+        ph.verify(hashed_password, password)
+        return True
+    except Exception as e:
+        return False
 
 def signup_user(username, password):
     hashed_password = hash_password(password)
